@@ -116,4 +116,61 @@ ${options.message}
     const log = await this.git.log([`-${count}`, '--oneline']);
     return log.all.map(commit => commit.message);
   }
+
+  async getLatestVersionTag(): Promise<string | null> {
+    logger.detail('Finding latest version tag...');
+    
+    // Fetch tags
+    await this.git.fetch(['--tags']);
+    
+    // Get all tags that start with 'v' and sort by version
+    const tags = await this.git.tags(['--sort=-v:refname', 'v*']);
+    
+    if (tags.all.length === 0) {
+      logger.detail('No version tags found');
+      return null;
+    }
+    
+    const latestTag = tags.all[0];
+    logger.detail(`Latest version tag: ${latestTag}`);
+    return latestTag;
+  }
+
+  async getDiffSinceTag(tag: string): Promise<string> {
+    logger.detail(`Getting diff since ${tag}...`);
+    
+    // Get the diff between the tag and HEAD
+    const diff = await this.git.diff([tag, 'HEAD', '--stat']);
+    return diff;
+  }
+
+  async getDiffSummary(tag: string): Promise<{ files: string[]; insertions: number; deletions: number }> {
+    logger.detail(`Getting diff summary since ${tag}...`);
+    
+    const diffSummary = await this.git.diffSummary([tag, 'HEAD']);
+    return {
+      files: diffSummary.files.map(f => f.file),
+      insertions: diffSummary.insertions,
+      deletions: diffSummary.deletions,
+    };
+  }
+
+  async getCommitsSinceTag(tag: string): Promise<string[]> {
+    logger.detail(`Getting commits since ${tag}...`);
+    
+    const log = await this.git.log([`${tag}..HEAD`, '--oneline']);
+    return log.all.map(commit => commit.message);
+  }
+
+  async getFullDiffSinceTag(tag: string, maxLength = 10000): Promise<string> {
+    logger.detail(`Getting full diff since ${tag}...`);
+    
+    // Get the actual code diff (limited to avoid huge outputs)
+    const diff = await this.git.diff([tag, 'HEAD']);
+    
+    if (diff.length > maxLength) {
+      return diff.slice(0, maxLength) + '\n\n... (diff truncated)';
+    }
+    return diff;
+  }
 }

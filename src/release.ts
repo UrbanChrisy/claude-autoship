@@ -4,7 +4,7 @@ import { RepoConfig, ReleaseOptions } from './types.js';
 import { GitOperations } from './git.js';
 import { GitHubOperations } from './github.js';
 import { logger } from './logger.js';
-import { generateChangesetMessage, suggestReleaseType } from './ai.js';
+import { generateChangesetMessage, suggestReleaseType, DiffContext } from './ai.js';
 
 const TOTAL_STEPS = 10;
 
@@ -20,7 +20,7 @@ export async function runRelease(
   let spinner: ReturnType<typeof ora> | null = null;
 
   try {
-    // Step 1: Clone repository (need this first to analyze commits)
+    // Step 1: Clone repository (need this first to analyze changes)
     logger.step(1, TOTAL_STEPS, 'Cloning repository from main...');
     spinner = ora('Cloning...').start();
     await git.clone();
@@ -30,9 +30,51 @@ export async function runRelease(
     const currentVersion = await git.getPackageVersion();
     logger.detail(`Package: ${packageName} @ ${currentVersion}`);
 
-    // Get recent commits for AI analysis
-    const recentCommits = await git.getRecentCommits(15);
-    logger.detail(`Found ${recentCommits.length} recent commits`);
+    // Find the latest version tag and get diff
+    spinner = ora('Finding latest version tag...').start();
+    const latestTag = await git.getLatestVersionTag();
+    
+    if (!latestTag) {
+      spinner.fail('No version tags found');
+      logger.warn('Cannot find previous version tag. Using recent commits instead.');
+    } else {
+      spinner.succeed(`Latest version: ${latestTag}`);
+    }
+
+    // Build diff context
+    let diffContext: DiffContext;
+    
+    if (latestTag) {
+      spinner = ora('Analyzing changes since last release...').start();
+      const [commits, diffSummary, diff] = await Promise.all([
+        git.getCommitsSinceTag(latestTag),
+        git.getDiffSummary(latestTag),
+        git.getFullDiffSinceTag(latestTag),
+      ]);
+      spinner.succeed(`Found ${commits.length} commits, ${diffSummary.files.length} files changed`);
+      
+      diffContext = {
+        commits,
+        diff,
+        filesChanged: diffSummary.files,
+        insertions: diffSummary.insertions,
+        deletions: diffSummary.deletions,
+        previousVersion: latestTag,
+      };
+      
+      logger.detail(`Changes: +${diffContext.insertions}/-${diffContext.deletions} lines`);
+    } else {
+      // Fallback to recent commits if no tag found
+      const recentCommits = await git.getRecentCommits(15);
+      diffContext = {
+        commits: recentCommits,
+        diff: '',
+        filesChanged: [],
+        insertions: 0,
+        deletions: 0,
+        previousVersion: 'unknown',
+      };
+    }
 
     // Determine release type
     let releaseType: 'patch' | 'minor' | 'major';
@@ -40,9 +82,9 @@ export async function runRelease(
     if (options.type) {
       releaseType = options.type;
     } else {
-      // Use AI to suggest release type
-      spinner = ora('Analyzing commits...').start();
-      const suggestedType = await suggestReleaseType(recentCommits);
+      // Use AI to suggest release type based on diff
+      spinner = ora('Analyzing changes...').start();
+      const suggestedType = await suggestReleaseType(diffContext);
       spinner.succeed(`AI suggests: ${suggestedType} release`);
 
       releaseType = await select({
@@ -65,7 +107,7 @@ export async function runRelease(
       spinner = ora('Generating changeset description with AI...').start();
       
       try {
-        const aiMessage = await generateChangesetMessage(packageName, releaseType, recentCommits);
+        const aiMessage = await generateChangesetMessage(packageName, releaseType, diffContext);
         spinner.succeed('AI generated description');
         
         logger.blank();

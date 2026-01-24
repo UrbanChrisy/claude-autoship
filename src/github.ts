@@ -28,18 +28,30 @@ export class GitHubOperations {
     logger.detail(`  Head: ${branchName}`);
     logger.detail(`  Base: ${this.config.baseBranch}`);
 
+    // Create the PR (returns the URL)
+    const prUrl = this.exec(`gh pr create \
+      --repo "${this.config.owner}/${this.config.repo}" \
+      --head "${branchName}" \
+      --base "${this.config.baseBranch}" \
+      --title "${title.replace(/"/g, '\\"')}" \
+      --body "${body.replace(/"/g, '\\"')}"`);
+
+    // Extract PR number from URL (e.g., https://github.com/owner/repo/pull/123)
+    const prNumberMatch = prUrl.match(/\/pull\/(\d+)/);
+    if (!prNumberMatch) {
+      throw new Error(`Could not parse PR number from URL: ${prUrl}`);
+    }
+    const prNumber = parseInt(prNumberMatch[1], 10);
+
+    // Get full PR details
     const result = this.execJson<{
       number: number;
       url: string;
       headRefName: string;
       headRefOid: string;
       state: string;
-    }>(`gh pr create \
+    }>(`gh pr view ${prNumber} \
       --repo "${this.config.owner}/${this.config.repo}" \
-      --head "${branchName}" \
-      --base "${this.config.baseBranch}" \
-      --title "${title.replace(/"/g, '\\"')}" \
-      --body "${body.replace(/"/g, '\\"')}" \
       --json number,url,headRefName,headRefOid,state`);
 
     return {
