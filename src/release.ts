@@ -210,7 +210,7 @@ export async function runRelease(
 ${fullOptions.message}
 
 ---
-*This PR was created automatically by release-cli*`
+*This PR was created automatically by mkrelease*`
     );
     spinner.succeed(`PR created: #${pr.number}`);
     logger.info(`PR URL: ${pr.html_url}`);

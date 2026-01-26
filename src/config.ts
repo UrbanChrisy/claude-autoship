@@ -13,7 +13,7 @@ const REPO_CONFIGS: Record<string, RepoConfig> = {
   },
 };
 
-const CONFIG_DIR = path.join(os.homedir(), '.release-cli');
+const CONFIG_DIR = path.join(os.homedir(), '.mkrelease');
 const CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 
 interface StoredConfig {
@@ -65,5 +65,5 @@ export function listRepos(): string[] {
 }
 
 export function getTempDir(): string {
-  return path.join(os.tmpdir(), 'release-cli');
+  return path.join(os.tmpdir(), 'mkrelease');
 }
