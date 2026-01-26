@@ -7,7 +7,7 @@ CLI tool to automate changeset-based releases with AI-generated descriptions.
 - **Node.js** 18+
 - **Git**
 - **GitHub CLI** (`gh`) - authenticated with repo access
-- **AI provider API key** - set via `AI_GATEWAY_URL` or provider-specific env var (e.g., `ANTHROPIC_API_KEY`)
+- **AI_GATEWAY_API_KEY** environment variable
 
 The target repository must use [changesets](https://github.com/changesets/changesets) for versioning.
 
@@ -19,10 +19,10 @@ The target repository must use [changesets](https://github.com/changesets/change
 gh auth login
 ```
 
-### 2. Set your AI provider
+### 2. Set your API key
 
 ```bash
-export ANTHROPIC_API_KEY=your-key
+export AI_GATEWAY_API_KEY=your-key
 ```
 
 ### 3. Add a repository
