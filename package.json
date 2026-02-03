@@ -27,11 +27,11 @@
   "author": "Vercel Labs",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vercel-labs/claude-autoship.git"
+    "url": "git+https://github.com/UrbanChrisy/claude-autoship.git"
   },
-  "homepage": "https://github.com/vercel-labs/claude-autoship#readme",
+  "homepage": "https://github.com/UrbanChrisy/claude-autoship#readme",
   "bugs": {
-    "url": "https://github.com/vercel-labs/claude-autoship/issues"
+    "url": "https://github.com/UrbanChrisy/claude-autoship/issues"
   },
   "license": "Apache-2.0",
   "engines": {
