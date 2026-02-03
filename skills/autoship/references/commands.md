@@ -1,11 +1,11 @@
 # Command Reference
 
-Complete reference for all autoship commands. For quick start and common patterns, see SKILL.md.
+Complete reference for all claude-autoship commands. For quick start and common patterns, see SKILL.md.
 
 ## Main Command
 
 ```bash
-autoship [repo] [options]
+claude-autoship [repo] [options]
 ```
 
 If `repo` is omitted, displays an interactive selector with all configured repositories.
@@ -24,16 +24,16 @@ If `repo` is omitted, displays an interactive selector with all configured repos
 
 ```bash
 # Interactive mode - prompts for everything
-autoship myproject
+claude-autoship myproject
 
 # Specify release type, AI generates message
-autoship myproject -t minor
+claude-autoship myproject -t minor
 
 # Fully automated with custom message
-autoship myproject -t patch -m "Fixed login validation" -y
+claude-autoship myproject -t patch -m "Fixed login validation" -y
 
 # Fully automated with AI message
-autoship myproject -t patch -y
+claude-autoship myproject -t patch -y
 ```
 
 ## add Command
@@ -41,7 +41,7 @@ autoship myproject -t patch -y
 Add a new repository configuration.
 
 ```bash
-autoship add <name>
+claude-autoship add <name>
 ```
 
 ### Arguments
@@ -59,7 +59,7 @@ autoship add <name>
 ### Example
 
 ```bash
-autoship add myproject
+claude-autoship add myproject
 # > GitHub owner (org or user): vercel-labs
 # > Repository name: myproject
 # > Base branch: main
@@ -72,7 +72,7 @@ autoship add myproject
 List all configured repositories.
 
 ```bash
-autoship list
+claude-autoship list
 ```
 
 ### Output

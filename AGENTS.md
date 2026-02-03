@@ -1,8 +1,8 @@
 # Agent Instructions
 
-## Using autoship
+## Using claude-autoship
 
-For instructions on using the autoship CLI tool, see `skills/autoship/SKILL.md`.
+For instructions on using the claude-autoship CLI tool, see `skills/autoship/SKILL.md`.
 
 ## Code Style
 

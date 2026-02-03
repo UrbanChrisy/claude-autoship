@@ -1,11 +1,11 @@
 {
-  "name": "autoship",
+  "name": "claude-autoship",
   "version": "0.2.0",
   "description": "CLI tool to automate changeset-based releases with AI-generated descriptions",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "autoship": "./dist/index.js"
+    "claude-autoship": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -27,11 +27,11 @@
   "author": "Vercel Labs",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vercel-labs/autoship.git"
+    "url": "git+https://github.com/vercel-labs/claude-autoship.git"
   },
-  "homepage": "https://github.com/vercel-labs/autoship#readme",
+  "homepage": "https://github.com/vercel-labs/claude-autoship#readme",
   "bugs": {
-    "url": "https://github.com/vercel-labs/autoship/issues"
+    "url": "https://github.com/vercel-labs/claude-autoship/issues"
   },
   "license": "Apache-2.0",
   "engines": {

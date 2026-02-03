@@ -1,6 +1,6 @@
 # CI/CD Integration
 
-Run autoship in CI/CD pipelines for fully automated releases.
+Run claude-autoship in CI/CD pipelines for fully automated releases.
 
 ## GitHub Actions
 
@@ -42,20 +42,20 @@ jobs:
           node-version: 20
           cache: pnpm
       
-      - name: Install autoship
-        run: pnpm add -g autoship
+      - name: Install claude-autoship
+        run: pnpm add -g claude-autoship
       
       - name: Configure repository
         run: |
-          mkdir -p ~/.autoship
-          echo '${{ secrets.AUTOSHIP_CONFIG }}' > ~/.autoship/config.json
+          mkdir -p ~/.claude-autoship
+          echo '${{ secrets.AUTOSHIP_CONFIG }}' > ~/.claude-autoship/config.json
       
       - name: Run release
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          autoship ${{ inputs.repo || 'myproject' }} \
+          claude-autoship ${{ inputs.repo || 'myproject' }} \
             -t ${{ inputs.type || 'patch' }} \
             -y
 ```
@@ -97,15 +97,15 @@ jobs:
             echo "type=patch" >> $GITHUB_OUTPUT
           fi
       
-      - name: Install and run autoship
+      - name: Install and run claude-autoship
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          pnpm add -g autoship
-          mkdir -p ~/.autoship
-          echo '${{ secrets.AUTOSHIP_CONFIG }}' > ~/.autoship/config.json
-          autoship myproject -t ${{ steps.type.outputs.type }} -y
+          pnpm add -g claude-autoship
+          mkdir -p ~/.claude-autoship
+          echo '${{ secrets.AUTOSHIP_CONFIG }}' > ~/.claude-autoship/config.json
+          claude-autoship myproject -t ${{ steps.type.outputs.type }} -y
 ```
 
 ## Environment Variables
@@ -116,14 +116,14 @@ Set these secrets in your CI environment:
 |--------|-------------|
 | `ANTHROPIC_API_KEY` | API key for AI features |
 | `GH_TOKEN` | GitHub token with repo access (or use `GITHUB_TOKEN`) |
-| `AUTOSHIP_CONFIG` | Contents of `~/.autoship/config.json` |
+| `AUTOSHIP_CONFIG` | Contents of `~/.claude-autoship/config.json` |
 
 ### Creating AUTOSHIP_CONFIG Secret
 
 ```bash
 # Copy your local config to clipboard
-cat ~/.autoship/config.json | pbcopy  # macOS
-cat ~/.autoship/config.json | xclip   # Linux
+cat ~/.claude-autoship/config.json | pbcopy  # macOS
+cat ~/.claude-autoship/config.json | xclip   # Linux
 
 # Add as secret in GitHub repo settings
 ```
@@ -145,12 +145,12 @@ on:
         options: [patch, minor, major]
 ```
 
-### 2. Pin autoship Version
+### 2. Pin claude-autoship Version
 
 For reproducible builds, pin the version:
 
 ```yaml
-- run: pnpm add -g autoship@1.0.0
+- run: pnpm add -g claude-autoship@1.0.0
 ```
 
 ### 3. Validate Before Release

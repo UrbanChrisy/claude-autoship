@@ -15,7 +15,7 @@ OWNER="${2:?Usage: $0 <name> <owner> <repo> [base-branch]}"
 REPO="${3:?Usage: $0 <name> <owner> <repo> [base-branch]}"
 BASE_BRANCH="${4:-main}"
 
-CONFIG_DIR="$HOME/.autoship"
+CONFIG_DIR="$HOME/.claude-autoship"
 CONFIG_FILE="$CONFIG_DIR/config.json"
 
 # Create config directory if needed
@@ -45,14 +45,14 @@ if command -v jq &> /dev/null; then
   echo "  Branch: $BASE_BRANCH"
   echo "  Clone URL: $CLONE_URL"
 else
-  # Fallback: use autoship add with expect-like input
+  # Fallback: use claude-autoship add with expect-like input
   echo "Warning: jq not found, using interactive fallback"
   echo "Install jq for non-interactive setup: brew install jq"
   echo ""
-  echo "Running: autoship add $NAME"
+  echo "Running: claude-autoship add $NAME"
   echo "Please enter:"
   echo "  Owner: $OWNER"
   echo "  Repo: $REPO"
   echo "  Branch: $BASE_BRANCH"
-  autoship add "$NAME"
+  claude-autoship add "$NAME"
 fi

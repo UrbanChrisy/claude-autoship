@@ -6,7 +6,7 @@ import * as os from 'os';
 // Built-in repository configurations (users can add more via `mkrelease add`)
 const REPO_CONFIGS: Record<string, RepoConfig> = {};
 
-const CONFIG_DIR = path.join(os.homedir(), '.autoship');
+const CONFIG_DIR = path.join(os.homedir(), '.claude-autoship');
 const CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 
 interface StoredConfig {

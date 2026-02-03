@@ -1,4 +1,4 @@
-# autoship
+# claude-autoship
 
 CLI tool to automate changeset-based releases with AI-generated descriptions.
 
@@ -38,7 +38,7 @@ export ANTHROPIC_API_KEY=your-key
 ### 3. Add a repository
 
 ```bash
-npx autoship add myproject
+npx claude-autoship add myproject
 ```
 
 You'll be prompted for:
@@ -51,7 +51,7 @@ You'll be prompted for:
 ### Start a release
 
 ```bash
-npx autoship [repo]
+npx claude-autoship [repo]
 ```
 
 If no repo is specified, you'll be prompted to select one.
@@ -79,24 +79,24 @@ The tool will:
 
 ```bash
 # Interactive release
-npx autoship myproject
+npx claude-autoship myproject
 
 # Patch release with custom message
-npx autoship myproject -t patch -m "Fixed login bug"
+npx claude-autoship myproject -t patch -m "Fixed login bug"
 
 # Fully automated minor release
-npx autoship myproject -t minor -y
+npx claude-autoship myproject -t minor -y
 ```
 
 ### List configured repositories
 
 ```bash
-npx autoship list
+npx claude-autoship list
 ```
 
 ## Configuration
 
-Config is stored at `~/.autoship/config.json`.
+Config is stored at `~/.claude-autoship/config.json`.
 
 ## Usage with AI Agents
 
@@ -105,7 +105,7 @@ Config is stored at `~/.autoship/config.json`.
 The simplest approach - just tell your agent to use it:
 
 ```
-Use autoship to release my package. Run autoship --help to see available commands.
+Use claude-autoship to release my package. Run claude-autoship --help to see available commands.
 ```
 
 ### AI Coding Assistants
@@ -113,7 +113,7 @@ Use autoship to release my package. Run autoship --help to see available command
 Add the skill to your AI coding assistant for richer context:
 
 ```bash
-npx skills add vercel-labs/autoship
+npx skills add vercel-labs/claude-autoship
 ```
 
 This works with Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Goose, OpenCode, and Windsurf.
@@ -125,11 +125,11 @@ For more consistent results, add to your project or global instructions file:
 ```markdown
 ## Package Releases
 
-Use `autoship` for releases. Run `autoship --help` for all commands.
+Use `claude-autoship` for releases. Run `claude-autoship --help` for all commands.
 
 Core workflow:
-1. `autoship add <name>` - Configure repository (one-time)
-2. `autoship <name> -t patch -y` - Automated release
+1. `claude-autoship add <name>` - Configure repository (one-time)
+2. `claude-autoship <name> -t patch -y` - Automated release
 ```
 
 ## Contributing
@@ -138,7 +138,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ```bash
 # Clone the repo
-git clone https://github.com/vercel-labs/autoship.git
+git clone https://github.com/vercel-labs/claude-autoship.git
 
 # Install dependencies
 pnpm install

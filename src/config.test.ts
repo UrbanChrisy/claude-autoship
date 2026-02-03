@@ -20,8 +20,8 @@ const { getRepoConfig, addRepoConfig, listRepos, getTempDir } = await import('./
 
 describe('config', () => {
   const mockHomedir = '/mock/home';
-  const mockConfigDir = '/mock/home/.autoship';
-  const mockConfigFile = '/mock/home/.autoship/config.json';
+  const mockConfigDir = '/mock/home/.claude-autoship';
+  const mockConfigFile = '/mock/home/.claude-autoship/config.json';
 
   beforeEach(() => {
     vi.mocked(os.homedir).mockReturnValue(mockHomedir);
@@ -49,7 +49,7 @@ describe('config', () => {
       vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(storedConfig));
 
       const config = getRepoConfig('my-repo');
-      
+
       expect(config).toEqual(storedConfig.repos['my-repo']);
     });
 
@@ -57,7 +57,7 @@ describe('config', () => {
       vi.mocked(fs.existsSync).mockReturnValue(false);
 
       const config = getRepoConfig('unknown-repo');
-      
+
       expect(config).toBeNull();
     });
 
@@ -66,7 +66,7 @@ describe('config', () => {
       vi.mocked(fs.readFileSync).mockReturnValue('invalid json');
 
       const config = getRepoConfig('unknown-repo');
-      
+
       expect(config).toBeNull();
     });
   });
@@ -75,7 +75,7 @@ describe('config', () => {
     it('should add new repo config to stored configs', () => {
       vi.mocked(fs.existsSync).mockReturnValue(true);
       vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify({ repos: {} }));
-      vi.mocked(fs.writeFileSync).mockImplementation(() => {});
+      vi.mocked(fs.writeFileSync).mockImplementation(() => { });
 
       const newConfig = {
         owner: 'new-org',
@@ -99,7 +99,7 @@ describe('config', () => {
         return false;
       });
       vi.mocked(fs.mkdirSync).mockImplementation(() => undefined);
-      vi.mocked(fs.writeFileSync).mockImplementation(() => {});
+      vi.mocked(fs.writeFileSync).mockImplementation(() => { });
 
       addRepoConfig('test-repo', {
         owner: 'test',
@@ -117,7 +117,7 @@ describe('config', () => {
       vi.mocked(fs.existsSync).mockReturnValue(false);
 
       const repos = listRepos();
-      
+
       expect(repos).toEqual([]);
     });
 
@@ -137,7 +137,7 @@ describe('config', () => {
       vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify(storedConfig));
 
       const repos = listRepos();
-      
+
       expect(repos).toContain('custom-repo');
     });
   });
@@ -145,7 +145,7 @@ describe('config', () => {
   describe('getTempDir', () => {
     it('should return temp directory path', () => {
       const tempDir = getTempDir();
-      
+
       expect(tempDir).toBe('/mock/tmp/autoship');
     });
   });

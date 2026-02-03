@@ -1,6 +1,6 @@
 # Configuration Reference
 
-autoship stores configuration in `~/.autoship/config.json`.
+claude-autoship stores configuration in `~/.claude-autoship/config.json`.
 
 ## Config File Structure
 
@@ -56,18 +56,18 @@ autoship stores configuration in `~/.autoship/config.json`.
 Use the CLI to add repositories:
 
 ```bash
-autoship add myproject
+claude-autoship add myproject
 ```
 
 This interactively prompts for all required fields.
 
 ### Manual Editing
 
-You can also edit `~/.autoship/config.json` directly:
+You can also edit `~/.claude-autoship/config.json` directly:
 
 ```bash
 # Open config file
-$EDITOR ~/.autoship/config.json
+$EDITOR ~/.claude-autoship/config.json
 ```
 
 ### Remove Repository
@@ -76,12 +76,12 @@ Currently, remove repositories by editing the config file directly:
 
 ```bash
 # Edit and remove the entry from "repos"
-$EDITOR ~/.autoship/config.json
+$EDITOR ~/.claude-autoship/config.json
 ```
 
 ## Requirements for Target Repositories
 
-autoship works with repositories that use the [changesets](https://github.com/changesets/changesets) workflow:
+claude-autoship works with repositories that use the [changesets](https://github.com/changesets/changesets) workflow:
 
 1. **Changesets installed** - `@changesets/cli` as dev dependency
 2. **Changesets config** - `.changeset/config.json` exists

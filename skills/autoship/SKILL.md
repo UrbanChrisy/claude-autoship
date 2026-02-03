@@ -1,17 +1,17 @@
 ---
-name: autoship
+name: claude-autoship
 description: CLI tool for automated changeset-based releases with AI-generated descriptions. Use when the user needs to release a package, create changesets, bump versions, or automate npm publishing workflows. Triggers include requests to "release a package", "create a changeset", "publish to npm", "bump the version", "automate releases", or any task involving version management and package publishing for repositories using the changesets workflow.
-allowed-tools: Bash(autoship:*), Bash(npx autoship:*)
+allowed-tools: Bash(claude-autoship:*), Bash(npx claude-autoship:*)
 ---
 
-# Automated Releases with autoship
+# Automated Releases with claude-autoship
 
 ## Core Workflow
 
 Every release follows this pattern:
 
-1. **Configure**: `autoship add <name>` (one-time setup)
-2. **Release**: `autoship <name>` (interactive) or `autoship <name> -t patch -y` (automated)
+1. **Configure**: `claude-autoship add <name>` (one-time setup)
+2. **Release**: `claude-autoship <name>` (interactive) or `claude-autoship <name> -t patch -y` (automated)
 
 The tool handles the complete release cycle:
 - Clone repository
@@ -23,7 +23,7 @@ The tool handles the complete release cycle:
 
 ## Requirements
 
-Before using autoship, ensure:
+Before using claude-autoship, ensure:
 
 ```bash
 # GitHub CLI must be authenticated
@@ -37,28 +37,28 @@ export ANTHROPIC_API_KEY="your-key"
 
 ```bash
 # One-time setup: add a repository
-autoship add myproject
+claude-autoship add myproject
 # Prompts for: owner, repo name, base branch
 
 # List configured repositories
-autoship list
+claude-autoship list
 
 # Interactive release (prompts for type and message)
-autoship myproject
+claude-autoship myproject
 
 # Automated release (no prompts)
-autoship myproject -t patch -y
-autoship myproject -t minor -y
-autoship myproject -t major -y
+claude-autoship myproject -t patch -y
+claude-autoship myproject -t minor -y
+claude-autoship myproject -t major -y
 
 # Release with custom message (skips AI generation)
-autoship myproject -t patch -m "Fixed login bug" -y
+claude-autoship myproject -t patch -m "Fixed login bug" -y
 ```
 
 ## Command Options
 
 ```bash
-autoship [repo]                    # Interactive repo selection if omitted
+claude-autoship [repo]             # Interactive repo selection if omitted
   -t, --type <type>                # Release type: patch, minor, major
   -m, --message <message>          # Custom changeset description
   -y, --yes                        # Skip all confirmations
@@ -70,13 +70,13 @@ autoship [repo]                    # Interactive repo selection if omitted
 ### Fully Automated Patch Release
 
 ```bash
-autoship myproject -t patch -y
+claude-autoship myproject -t patch -y
 ```
 
 ### AI-Assisted Interactive Release
 
 ```bash
-autoship myproject
+claude-autoship myproject
 # 1. AI analyzes commits since last release
 # 2. AI suggests release type (patch/minor/major)
 # 3. You confirm or change the type
@@ -88,7 +88,7 @@ autoship myproject
 ### Custom Message Release
 
 ```bash
-autoship myproject -t minor -m "Added new authentication providers" -y
+claude-autoship myproject -t minor -m "Added new authentication providers" -y
 ```
 
 ### CI/CD Integration
@@ -96,10 +96,10 @@ autoship myproject -t minor -m "Added new authentication providers" -y
 ```bash
 # In GitHub Actions or CI pipeline
 export ANTHROPIC_API_KEY="${{ secrets.ANTHROPIC_API_KEY }}"
-npx autoship myproject -t patch -y
+npx claude-autoship myproject -t patch -y
 ```
 
-## What autoship Does (10 Steps)
+## What claude-autoship Does (10 Steps)
 
 1. **Clone** - Clones the repository from the base branch
 2. **Analyze** - Finds latest version tag, analyzes commits and diff
@@ -114,7 +114,7 @@ npx autoship myproject -t patch -y
 
 ## Output Format
 
-autoship provides clear step-by-step output:
+claude-autoship provides clear step-by-step output:
 
 ```
 [1/10] Cloning repository from main...
@@ -135,7 +135,7 @@ The patch release has been published.
 
 ## Configuration
 
-Config is stored at `~/.autoship/config.json`:
+Config is stored at `~/.claude-autoship/config.json`:
 
 ```json
 {
@@ -174,11 +174,11 @@ Config is stored at `~/.autoship/config.json`:
 
 ### "No repositories configured"
 
-Run `autoship add <name>` to configure a repository first.
+Run `claude-autoship add <name>` to configure a repository first.
 
 ### "Repository not found"
 
-Check `autoship list` for available repos. The name is case-sensitive.
+Check `claude-autoship list` for available repos. The name is case-sensitive.
 
 ### CI checks failing
 
@@ -186,4 +186,4 @@ The tool will show which checks failed. Fix the issues in the target repository,
 
 ### AI generation failed
 
-If AI fails, autoship falls back to manual input. Ensure `ANTHROPIC_API_KEY` is set.
+If AI fails, claude-autoship falls back to manual input. Ensure `ANTHROPIC_API_KEY` is set.

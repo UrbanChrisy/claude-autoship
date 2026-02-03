@@ -38,13 +38,13 @@ if [[ -z "${ANTHROPIC_API_KEY:-}" ]]; then
   exit 1
 fi
 
-# Run autoship
+# Run claude-autoship
 echo "Starting $TYPE release for $REPO..."
 
 if [[ -n "$MESSAGE" ]]; then
-  autoship "$REPO" -t "$TYPE" -m "$MESSAGE" -y
+  claude-autoship "$REPO" -t "$TYPE" -m "$MESSAGE" -y
 else
-  autoship "$REPO" -t "$TYPE" -y
+  claude-autoship "$REPO" -t "$TYPE" -y
 fi
 
 echo "Release complete!"
